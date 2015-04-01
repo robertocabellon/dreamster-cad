@@ -45,16 +45,16 @@ module pestania_agujero1(){
 		translate([-2.5, -7.5, -alto_base/3])
 			cube([10, 10, alto_base]);
 		translate([2, -3.8, -alto_base/3])
-			cylinder(h = alto_base*2, r = 1.775, $fn=25, center = false);
+			cylinder(h = alto_base*2, r = 1.8, $fn=25, center = false);
 	}
 }
 
 module pestania_agujero2(){
 	difference(){
-		translate([39, 43, -alto_base/3])
-			cube([9.5, 10, alto_base]);
-		translate([45.5, 48, -alto_base/3])
-			cylinder(h = alto_base*2, r = 1.775, $fn=25, center = false);
+		translate([39, 41.4, -alto_base/3])
+			cube([9.3, 10, alto_base]);
+		translate([45, 46.6, -alto_base/3])
+			cylinder(h = alto_base*2, r = 1.8, $fn=25, center = false);
 	}
 }
 
