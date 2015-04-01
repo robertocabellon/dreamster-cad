@@ -96,7 +96,7 @@ module chassis() {
   translate([-(width/2-thickness_wall/2), 0, height_wall/2+thickness/2]) {
     side_wall(slope);
   }
-  translate([0, depth/2-thickness_wall/2-7, height_wall/2+thickness/2]) {
+  translate([0, depth/2-thickness_wall/2-9, height_wall/2+thickness/2]) {
     rotate([0, 0, 90]) {
       front_wall(slope);
     }
