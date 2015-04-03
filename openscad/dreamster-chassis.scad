@@ -105,30 +105,27 @@ module chassis() {
 
 module holes() {
   translate([-37, -depth/2 + 30, -3]) {
-    #cube([3, 25, 6], center=false);
+    cube([3, 25, 6], center=false);
     translate([-2.1, 0, 4.5])
-    #cube([5, 25, 6], center=false);
+    cube([5, 25, 6], center=false);
   }
   translate([35, -depth/2 + 30, -3]) {
-    #cube([3, 25, 6], center=false);
+    cube([3, 25, 6], center=false);
     translate([0, 0, 4.5])
-    #cube([5, 25, 6], center=false);
+    cube([5, 25, 6], center=false);
   }
-	translate([17, -depth/2 + 8, 0]) {
-		cube([10, 10, 3], center=false);
-	}
-
-	translate ([20, -depth/2 + 69, -5]) {
-		cylinder (h = 20, r = 1.75);
-	}
-
-	translate ([-8.5, -depth/2 + 69, -5]) {
-		cylinder (h = 20, r = 1.75);
-	}
-
-	translate ([-22.5, -depth/2 + 19, -5]) {
-		cylinder (h = 20, r = 1.75);
-	}
+  translate([17, -depth/2 + 13, 0]) {
+    cube([10, 10, 3], center=false);
+  }
+  translate ([20, -depth/2 + 74, -5]) {
+    cylinder (h = 20, r = 1.775);
+  }
+  translate ([-8.5, -depth/2 + 74, -5]) {
+    cylinder (h = 20, r = 1.775);
+  }
+  translate ([-22.5, -depth/2 + 24, -5]) {
+    cylinder (h = 20, r = 1.775);
+  }
 }
 difference() {
   chassis();
