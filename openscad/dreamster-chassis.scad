@@ -1,4 +1,5 @@
 use <roundedrect.scad>
+use <triangles.scad>
 // Dreamster parametric prototype chassis V1
 
 // Default resolution (set it lower for faster rendering)
@@ -37,6 +38,18 @@ module rounded_slope(width, depth)
     difference() {
       cube([width, depth, width], center=true);
       rotate([90, 0, 0]) translate ([width/2, width/2, 0]) cylinder(h=depth+2, r=width, center=true);
+    }
+  }
+}
+
+module motor_cutout()
+{
+  ml = 30;
+  mh = 13;
+  cube([ml, mh, thickness_wall+18]);
+  translate([0, mh, -2]) {
+    scale([1, 1, 22]) {
+      Right_Angled_Triangle(40, ml);
     }
   }
 }
@@ -104,6 +117,7 @@ module chassis() {
 }
 
 module holes() {
+/*
   translate([-37, -depth/2 + 30, -3]) {
     cube([3, 25, 6], center=false);
     translate([-2.1, 0, 4.5])
@@ -114,6 +128,7 @@ module holes() {
     translate([0, 0, 4.5])
     cube([5, 25, 6], center=false);
   }
+*/
   translate([17, -depth/2 + 13, 0]) {
     cube([10, 10, 3], center=false);
   }
@@ -127,8 +142,20 @@ module holes() {
     cylinder (h = 20, r = 1.775);
   }
 }
+
+
 difference() {
   chassis();
   rounder();
   holes();
+  translate([-width/2-3, -depth/2, 0]) {
+  rotate([90, 0, 90]) {
+    motor_cutout();
+  }
+  }
+  translate([width/2-20, -depth/2, 0]) {
+  rotate([90, 0, 90]) {
+    motor_cutout();
+  }
+  }
 }
