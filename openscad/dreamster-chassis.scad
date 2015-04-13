@@ -64,6 +64,16 @@ module rounder() {
   }
 }
 
+module ball_caster() {
+  bcw = 11.7;
+  translate([-bcw/2, 0, 0]) {
+    cylinder(r=0.5, h=20, center=true);
+  }
+  translate([bcw/2, 0, 0]) {
+    cylinder(r=0.5, h=20, center=true);
+  }
+}
+
 module base() {
   difference() {
     cube([width, depth, thickness], center=true);
@@ -117,18 +127,6 @@ module chassis() {
 }
 
 module holes() {
-/*
-  translate([-37, -depth/2 + 30, -3]) {
-    cube([3, 25, 6], center=false);
-    translate([-2.1, 0, 4.5])
-    cube([5, 25, 6], center=false);
-  }
-  translate([35, -depth/2 + 30, -3]) {
-    cube([3, 25, 6], center=false);
-    translate([0, 0, 4.5])
-    cube([5, 25, 6], center=false);
-  }
-*/
   translate([17, -depth/2 + 13, 0]) {
     cube([10, 10, 3], center=false);
   }
@@ -141,13 +139,6 @@ module holes() {
   translate ([-22.5, -depth/2 + 24, -5]) {
     cylinder (h = 20, r = 1.775);
   }
-}
-
-
-difference() {
-  chassis();
-  rounder();
-  holes();
   translate([-width/2-3, -depth/2, 0]) {
   rotate([90, 0, 90]) {
     motor_cutout();
@@ -158,4 +149,14 @@ difference() {
     motor_cutout();
   }
   }
+  translate([0, depth/2-5, 0]) ball_caster();
 }
+
+
+difference() {
+  chassis();
+  rounder();
+  holes();
+}
+
+ball_caster();
