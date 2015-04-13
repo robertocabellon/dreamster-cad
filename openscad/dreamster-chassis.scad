@@ -158,5 +158,3 @@ difference() {
   rounder();
   holes();
 }
-
-ball_caster();
