@@ -12,6 +12,16 @@ height_wall = 25+8+1.5;
 thickness = 3;
 thickness_wall = 3.5;
 
+mount_holes_diameter = 3;
+hole_width = 40;
+hole_depth = 50;
+hole_pos_y = 10;
+
+corner_radius = 10;
+slope = 5;
+
+//---------------------------------
+
 dreamster_base_r = 140/2;
 dreamster_base_thickness = 3;
 
@@ -22,16 +32,12 @@ arduino_base_thickness = 3;
 
 battery_hole_depth = 60;
 battery_hole_width = 37.5;
-
 battery_support_height = 22;
 
-mount_holes_diameter = 3;
-hole_width = 40;
-hole_depth = 50;
-hole_pos_y = 10;
+wheel_hole_depth = 25;
+wheel_hole_width = 80;
+wheel_hole_thickness = 10;
 
-corner_radius = 10;
-slope = 5;
 
 module distance_sensor() {
   radio = 16.3 / 2;
@@ -45,7 +51,17 @@ module distance_sensor() {
 	}
 }
 }
-
+/*
+module ball_caster() {
+  bcw = 11.7;
+  translate([-bcw/2, 0, 0]) {
+    cylinder(r=0.5, h=20, center=true);
+  }
+  translate([bcw/2, 0, 0]) {
+    cylinder(r=0.5, h=20, center=true);
+  }
+}
+*/
 module rounded_slope(width, depth)
 {
   translate([0, 0, width/2]) {
@@ -75,16 +91,6 @@ module rounder() {
       roundedRect([width+r, depth+r, height_wall+10], r);
       roundedRect([width-r, depth-r, height_wall+10], r);
     }
-  }
-}
-
-module ball_caster() {
-  bcw = 11.7;
-  translate([-bcw/2, 0, 0]) {
-    cylinder(r=0.5, h=20, center=true);
-  }
-  translate([bcw/2, 0, 0]) {
-    cylinder(r=0.5, h=20, center=true);
   }
 }
 
@@ -178,6 +184,58 @@ module holes() {
 
 //-------------------------------
 
+module motor_support() {
+    difference() {
+        union() { 
+            translate([0, 0, 5.5]) {
+                cube([3, 6, 6]);
+            }
+            difference() {
+                cube([6, 6, 6]);
+                translate([6, 6, 5]) {
+                    rotate([90, 0, 0]) {
+                        cylinder(r = 3.1, h = 6);
+                    }
+                }
+            }
+        }
+        translate([-2, 3, 6]) {
+            rotate([90, 0, 90]) {
+                cylinder(r = 1.7, h = 6);
+            }
+        }
+    }
+    
+    translate([0, 22 + 6, 0]) {
+        difference() {
+            union() { 
+                translate([0, 0, 5.5]) {
+                    cube([3, 6, 6]);
+                }
+                difference() {
+                    cube([6, 6, 6]);
+                    translate([6, 6, 5]) {
+                        rotate([90, 0, 0]) {
+                            cylinder(r = 3.1, h = 6);
+                        }
+                    }
+                }
+            }
+            translate([-2, 3, 6]) {
+                rotate([90, 0, 90]) {
+                    cylinder(r = 1.7, h = 6);
+                }
+            }
+        }
+    }
+}
+
+module ball_caster() {
+    translate([0, 15, 0]) {
+        sphere(r = 3, $fn=50); 
+    }  
+}
+
 module dreamster_base_holes() {
     translate([0, depth/2-5, 0]) ball_caster();
     translate([battery_hole_width/2, battery_hole_depth/2 + 3.5 + 5.25, -5]) cylinder(r = 3.5/2, 35);
@@ -205,7 +263,12 @@ module arduino_holes() {
 }
 
 module wheels_holes() {
-   
+    translate([-dreamster_base_r/2 - dreamster_base_r/2, -wheel_hole_width/2, -5]) {
+        cube([wheel_hole_depth, wheel_hole_width, wheel_hole_thickness]);
+    }    
+    translate([dreamster_base_r/1.5, -wheel_hole_width/2, -5]) {
+        cube([wheel_hole_depth, wheel_hole_width, wheel_hole_thickness]);
+    }
 }
 
 module battery_supports() {
@@ -251,6 +314,15 @@ module dreamster_base() {
             }
         }
         dreamster_base_holes();
+        wheels_holes();
+    }
+    translate([-dreamster_base_r/2.5, -6 -22/2, -0.25]) {
+        motor_support();
+    }
+    translate([dreamster_base_r/2.5, 6 + 22/2, -0.25]) {
+        rotate([0, 0, 180]) {
+            motor_support();
+        }
     }
  }
 
@@ -260,7 +332,7 @@ module dreamster_base() {
   translate([0, 0, 25]) {
       arduino_base();
   }
-  
+ 
   dreamster_base();
 
 //difference() {
