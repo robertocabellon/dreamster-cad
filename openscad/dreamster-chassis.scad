@@ -3,7 +3,7 @@ use <triangles.scad>
 // Dreamster parametric prototype chassis V1
 
 // Default resolution (set it lower for faster rendering)
-$fn = 50;
+$fn = 80;
 
 // Chassis parameters
 depth = 95;
@@ -32,7 +32,7 @@ arduino_base_thickness = 3;
 
 battery_hole_depth = 60;
 battery_hole_width = 37.5;
-battery_support_height = 22;
+battery_support_height = 19;
 
 wheel_hole_depth = 15;
 wheel_hole_width = 65;
@@ -164,28 +164,7 @@ module holes() {
 // ================================================ //
 
 module motor_support() {
-    difference() {
-        union() { 
-            translate([0, 0, 5.5]) {
-                cube([3, 6, 6]);
-            }
-            difference() {
-                cube([6, 6, 6]);
-                translate([6, 6, 5]) {
-                    rotate([90, 0, 0]) {
-                        cylinder(r = 3.1, h = 6);
-                    }
-                }
-            }
-        }
-        translate([-2, 3, 6]) {
-            rotate([90, 0, 90]) {
-                cylinder(r = 1.7, h = 6);
-            }
-        }
-    }
-    
-    translate([0, 22 + 6, 0]) {
+    translate([0, -0.4, 0]) {
         difference() {
             union() { 
                 translate([0, 0, 5.5]) {
@@ -200,9 +179,31 @@ module motor_support() {
                     }
                 }
             }
-            translate([-2, 3, 6]) {
+            translate([-2, 3.45, 7.5]) {
                 rotate([90, 0, 90]) {
-                    cylinder(r = 1.7, h = 6);
+                    cylinder(r = 1.8, h = 6);
+                }
+            }
+        }
+    }
+   translate([0, 22 + 6.4, 0]) {
+        difference() {
+            union() { 
+                translate([0, 0, 5.5]) {
+                    cube([3, 6, 6]);
+                }
+                difference() {
+                    cube([6, 6, 6]);
+                    translate([6, 6, 5]) {
+                        rotate([90, 0, 0]) {
+                            cylinder(r = 3.1, h = 6);
+                        }
+                    }
+                }
+            }
+            translate([-2, 2.45, 7.5]) {
+                rotate([90, 0, 90]) {
+                    cylinder(r = 1.8, h = 6);
                 }
             }
         }
@@ -210,15 +211,21 @@ module motor_support() {
 }
 
 module ball_caster() {
-    translate([0, 15, 0]) {
-        sphere(r = 3, $fn=50); 
+    translate([0, 15, 3]) {
+        sphere(r = 7.7, $fn=50); 
+    }
+    translate([-9, 20, 0]) {
+        cube([1.1, 25, 8], center=true);
+    }
+    translate([9, 20, 0]) {
+        cube([1.1, 25, 8], center=true);
     }  
 }
 
 module dreamster_base_holes() {
     translate([0, depth/2-5, 0]) ball_caster();
-    translate([battery_hole_width/2, battery_hole_depth/2 + 3.5 + 5.25, -5]) cylinder(r = 3.5/2, 35);
-    translate([-battery_hole_width/2, -(battery_hole_depth/2 + 3.5 + 5.25), -5]) cylinder(r = 3.5/2, 35);
+    translate([37.5/2, 60/2 + 3.5 + 5.25, -5]) cylinder(r = 3.5/2, h = 35);
+    translate([-37.5/2, -(60/2 + 3.5 + 5.25), -5]) cylinder(r = 3.5/2, h = 35);
 }
 
 module arduino_holes() {
@@ -242,16 +249,16 @@ module arduino_holes() {
 }
 
 module wheels_holes() {
-    translate([-dreamster_base_r/1.16, -wheel_hole_width/2, -5]) {
+    translate([-dreamster_base_r/1.15, -wheel_hole_width/2, -5]) {
         cube([wheel_hole_depth, wheel_hole_width, wheel_hole_thickness]);
     }    
-    translate([dreamster_base_r/1.16 - wheel_hole_depth, -wheel_hole_width/2, -5]) {
+    translate([dreamster_base_r/1.15 - wheel_hole_depth, -wheel_hole_width/2, -5]) {
         cube([wheel_hole_depth, wheel_hole_width, wheel_hole_thickness]);
     }
 }
 
 module battery_supports() {
-    translate([battery_hole_width/2, battery_hole_depth/2 + 3.5 + 5.25, 0]) {
+    translate([37.5/2, 60/2 + 3.5 + 5.25, 0]) {
         union() {
             cube([14, 7, 22], center=true);           
             translate([3.5, -3.5, 0]) {
@@ -295,10 +302,10 @@ module dreamster_base() {
         dreamster_base_holes();
         wheels_holes();
     }
-    translate([-dreamster_base_r/1.7, -6 -22/2, -0.25]) {
+    translate([-dreamster_base_r/1.80, -6 -22/2, -0.25]) {
         motor_support();
     }
-    translate([dreamster_base_r/1.7, 6 + 22/2, -0.25]) {
+    translate([dreamster_base_r/1.80, 6 + 22/2, -0.25]) {
         rotate([0, 0, 180]) {
             motor_support();
         }
@@ -308,13 +315,16 @@ module dreamster_base() {
 
 //------------------------
 
- /*
-translate([0, 0, 25]) {
-    arduino_base();
-}
-*/
+ 
+//translate([0, 0, 25]) {
+//    arduino_base();
+//}
+
+ // ====== poner una ranura y la pieza complementaria para la BALLCASTER!
 dreamster_base();
 
+ 
+//------------  
 //difference() {
   //chassis();
   //rounder();
