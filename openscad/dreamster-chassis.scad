@@ -48,6 +48,13 @@ motor_z = 12;
 motor_axe_disp = 5;
 motor_tab = 3.6;
 
+//---------------------------------
+
+ module logo() {
+   include <dreamster_logo.scad>;
+ }
+
+
 module motor_support() {
   union(){
     difference() {
@@ -199,7 +206,12 @@ module dreamster_base() {
   difference() {
     union() {
       difference() {
-        cylinder (h = dreamster_base_thickness, r = dreamster_base_r, center = true);  
+        cylinder (h = dreamster_base_thickness, r = dreamster_base_r, center = true); 
+       // LOGO
+       translate([-dreamster_base_r/2.7,dreamster_base_r/1.5,1]){
+      rotate([0,0,210])
+        resize([40,0,0], auto=true) logo();}
+        
         translate([0, -9, 0])
           cube([battery_hole_width, battery_hole_depth-2, dreamster_base_thickness + 0.2], center=true); 
       }
@@ -282,3 +294,4 @@ module print_accesories() {
 }
 
 print_base();
+
