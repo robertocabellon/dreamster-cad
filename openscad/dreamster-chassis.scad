@@ -51,7 +51,7 @@ motor_tab = 3.6;
 //---------------------------------
 
  module logo() {
-   include <dreamster_logo.scad>;
+   import ("dreamster_logo.dxf");
  }
 
 
@@ -165,6 +165,10 @@ module dreamster_base_holes() {
     cylinder(r = 3/2, h = battery_support_height+dreamster_base_thickness+0.2);
   translate([-37.5/2, -(60/2 + 3.5 + 5.25)-6, -dreamster_base_thickness/2-0.1])
     cylinder(r = 3/2, h = battery_support_height+dreamster_base_thickness+0.2);
+  translate([-18,-dreamster_base_r+15,0])
+    cube([15,7,10], center=true);
+  translate([18,-dreamster_base_r+15,0])
+    cube([15,7,10], center=true);
 }
 
 
@@ -206,11 +210,12 @@ module dreamster_base() {
   difference() {
     union() {
       difference() {
-        cylinder (h = dreamster_base_thickness, r = dreamster_base_r, center = true); 
-       // LOGO
-       translate([-dreamster_base_r/2.7,dreamster_base_r/1.5,1]){
-      rotate([0,0,210])
-        resize([40,0,0], auto=true) logo();}
+          union(){
+            cylinder (h = dreamster_base_thickness, r = dreamster_base_r, center = true); 
+           // LOGO
+          translate([-dreamster_base_r/2.9,dreamster_base_r/1.68,2]){
+            rotate([0,0,216]) resize([48,0,0], auto=true) logo();}
+           }
         
         translate([0, -9, 0])
           cube([battery_hole_width, battery_hole_depth-2, dreamster_base_thickness + 0.2], center=true); 
@@ -294,4 +299,5 @@ module print_accesories() {
 }
 
 print_base();
+show();
 
