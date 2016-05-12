@@ -285,19 +285,16 @@ module print_base() {
 
 module print_accesories() {
   translate([0,0,arduino_base_thickness/2])arduino_base();
-  rotate([0,0,-90])
-    rotate([0,180,0])
-      translate([-10, -53+depth/2-7, 2-0.5])
-        ball_caster_holder_sensor();
-  rotate([0,180,0])
-    rotate([0,0,180])
-      translate([50,-8,1.5])
-        ball_caster_holder ();
+  translate([-2, -12, ball_caster_height])
+    rotate([0,0,90])
+      ball_caster_holder_sensor();
+  translate([50, -10, ball_caster_height])
+    rotate([0,0,90])
+      ball_caster_holder();
 
 }
 
-//arduino_base();
-//print_accesories();
+print_accesories();
 //print_base();
-show();
+//show();
 
