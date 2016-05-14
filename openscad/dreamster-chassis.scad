@@ -46,8 +46,9 @@ motor_z = 12;
 motor_axe_disp = 5;
 motor_tab = 3;
 
-ball_caster_r = 5.5; // canica d = 11 mm
-ball_caster_center = 58;
+ball_caster_r = 7.5; // canica d = 15 mm
+ball_caster_center = 56;
+ball_caster_support_holes = 11;
 
 distance_to_floor = 12; // measured from the top of the base (aka includes the thickness)
 ball_caster_height = distance_to_floor-dreamster_base_thickness-1.5;
@@ -103,13 +104,13 @@ module motor_support() {
 module ball_caster_holder() {
   difference() {
     union() {
-      difference() {
+      //difference() {
         //
         translate([0, 0, -ball_caster_height/2])
           cylinder(h=ball_caster_height,r=ball_caster_r+1.5,$fn=50,center=true);
-        translate([0, 0, -ball_caster_height/2+1])
-          cube([ball_caster_r*2+1,ball_caster_r*2+1,ball_caster_height-2],center=true);
-      }
+        //translate([0, 0, -ball_caster_height/2+1])
+          //cube([ball_caster_r*2+1,ball_caster_r*2+1,ball_caster_height-2],center=true);
+      //}
       // base disc
       translate([0, 0, -0.5])
         cylinder(h=1,d=ball_caster_r*2+3+10,$fn=50,center=true);
@@ -123,7 +124,7 @@ module ball_caster_holder() {
     translate([0,0,0]) {
       for(i=[1:3])
         rotate([0,0,120*i-30])
-          translate([-9.5, 0, -1-0.05])
+          translate([-ball_caster_support_holes, 0, -1-0.05])
             cylinder(d = 2.1, h = 1.1, $fn=50); 
     }
     
@@ -142,11 +143,11 @@ module ball_caster_holder_sensor() {
 //sphere and 3 holes for support used in base
 module ball_caster() {
   translate([0, 0, ball_caster_r+dreamster_base_thickness/2-distance_to_floor])
-    sphere(r = ball_caster_r, $fn=50);
+    %sphere(r = ball_caster_r, $fn=50);
   translate([0,0,0]) {
     for(i=[1:3])
       rotate([0,0,120*i-30])
-        translate([-9.5, 0, -dreamster_base_thickness/2-0.05])
+        translate([-ball_caster_support_holes, 0, -dreamster_base_thickness/2-0.05])
           cylinder(d = 2.1, h = dreamster_base_thickness*1.1, $fn=50); 
   }
 }
@@ -158,9 +159,9 @@ module dreamster_base_holes() {
   
   //holes for arduino base
   translate([37.5/2, 60/2 + 3.5-6, -dreamster_base_thickness/2-0.1])
-    cylinder(r = 1.8, h = battery_support_height+dreamster_base_thickness+0.2);
+    cylinder(r = 1.6, h = battery_support_height+dreamster_base_thickness+0.2);
   translate([-37.5/2, -(60/2 + 3.5 + 5.25)-6, -dreamster_base_thickness/2-0.1])
-    cylinder(r = 1.8, h = battery_support_height+dreamster_base_thickness+0.2);
+    cylinder(r = 1.6, h = battery_support_height+dreamster_base_thickness+0.2);
   
   // floor sensors holes
   translate([-20,-dreamster_base_r+15,0])
@@ -225,7 +226,7 @@ module dreamster_base() {
     wheels_holes();
   }
     
-  //Solapas para los motores
+  //motor tabs
   translate([0,motor_axe_disp,0]){
     translate([-dreamster_base_r/1.80+motor_x, medida_servo/2,1.4])
       motor_support();
@@ -254,11 +255,11 @@ module arduino_holes() {
   translate ([20, -depth/2 + 74, 0])
     cylinder (h = arduino_base_thickness+0.2, r = 1.8,center=true);
   translate ([20-1.1*25.4, -depth/2 + 74, 0])
-    cylinder (h = arduino_base_thickness+0.2, r = 1.5,center=true);
+    cylinder (h = arduino_base_thickness+0.2, r = 1.8,center=true);
   translate ([-22.5, -depth/2 + 74-25.4*2, 0])
     cylinder (h = arduino_base_thickness+0.2, r = 1.8,center=true);
   translate([-37.5/2+1, -(60/2 + 3.5 + 5.25)-6-1, 0])
-    cylinder(r = 1.8, h=arduino_base_thickness+0.2,center=true);
+    cylinder(h=arduino_base_thickness+0.2, r = 1.8, center=true);
 }
 
 module arduino_base() {
@@ -294,7 +295,7 @@ module print_accesories() {
 
 }
 
-print_accesories();
+//print_accesories();
 //print_base();
-//show();
+show();
 
