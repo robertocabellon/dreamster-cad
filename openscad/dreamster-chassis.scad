@@ -164,10 +164,13 @@ module dreamster_base_holes() {
     cylinder(r = 1.6, h = battery_support_height+dreamster_base_thickness+0.2);
   
   // floor sensors holes
-  translate([-20,-dreamster_base_r+15,0])
-    cube([15,7,dreamster_base_thickness*1.1], center=true);
-  translate([20,-dreamster_base_r+15,0])
-    cube([15,7,dreamster_base_thickness*1.1], center=true);
+  translate([0,28,0])
+    cube([20,6,dreamster_base_thickness*1.1], center=true);
+  
+  // battery hole
+  translate([0, -9, 0])
+    cube([battery_hole_width, battery_hole_depth-2, dreamster_base_thickness + 0.2], center=true); 
+  
 }
 
 
@@ -208,40 +211,34 @@ module battery_supports() {
 module dreamster_base() {
   difference() {
     union() {
-      difference() {
-        union(){
-          cylinder (h = dreamster_base_thickness, r = dreamster_base_r, center = true); 
+      cylinder (h = dreamster_base_thickness, r = dreamster_base_r, center = true); 
           // LOGO
-          translate([-dreamster_base_r/2.9,dreamster_base_r/1.68,dreamster_base_thickness/2])
-            rotate([0,0,216]) resize([48,0,1], auto=true) logo();
-        }
-        
-        translate([0, -9, 0])
-          cube([battery_hole_width, battery_hole_depth-2, dreamster_base_thickness + 0.2], center=true); 
-      }
       translate([0, -6, dreamster_base_thickness/2 + battery_support_height/2 ])
         battery_supports();
+      translate([-dreamster_base_r/2.9,dreamster_base_r/1.68,dreamster_base_thickness/2])
+        rotate([0,0,216]) resize([48,0,1], auto=true) logo();
+
+      //motor tabs
+      translate([0,motor_axe_disp,0]){
+        translate([-dreamster_base_r/1.80+motor_x, medida_servo/2,1.4])
+          motor_support();
+        translate([-dreamster_base_r/1.80+motor_x-motor_tab/2, -medida_servo/2-motor_y/2,1.4])
+          rotate(180,0,0)
+            translate([motor_tab/2,-motor_y/2,0])
+              motor_support();
+
+        translate([+dreamster_base_r/1.80-motor_x+motor_tab, medida_servo/2,1.4])
+          motor_support();
+
+        translate([+dreamster_base_r/1.80-motor_x+motor_tab/2, -medida_servo/2-motor_y/2,1.4])
+          rotate(180,0,0)
+            translate([motor_tab/2,-motor_y/2,0])
+              motor_support();
+      }
     }
+    
     dreamster_base_holes();
     wheels_holes();
-  }
-    
-  //motor tabs
-  translate([0,motor_axe_disp,0]){
-    translate([-dreamster_base_r/1.80+motor_x, medida_servo/2,1.4])
-      motor_support();
-    translate([-dreamster_base_r/1.80+motor_x-motor_tab/2, -medida_servo/2-motor_y/2,1.4])
-      rotate(180,0,0)
-        translate([motor_tab/2,-motor_y/2,0])
-          motor_support();
-
-    translate([+dreamster_base_r/1.80-motor_x+motor_tab, medida_servo/2,1.4])
-      motor_support();
-
-    translate([+dreamster_base_r/1.80-motor_x+motor_tab/2, -medida_servo/2-motor_y/2,1.4])
-      rotate(180,0,0)
-        translate([motor_tab/2,-motor_y/2,0])
-          motor_support();
   }
 }
  
