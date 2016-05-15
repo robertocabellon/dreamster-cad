@@ -50,7 +50,7 @@ ball_caster_r = 7.5; // canica d = 15 mm
 ball_caster_center = 56;
 ball_caster_support_holes = 11;
 
-distance_to_floor = 12; // measured from the top of the base (aka includes the thickness)
+distance_to_floor = 11; // measured from the top of the base (aka includes the thickness)
 ball_caster_height = distance_to_floor-dreamster_base_thickness-1.5;
 
 //---------------------------------
@@ -143,7 +143,7 @@ module ball_caster_holder_sensor() {
 //sphere and 3 holes for support used in base
 module ball_caster() {
   translate([0, 0, ball_caster_r+dreamster_base_thickness/2-distance_to_floor])
-    %sphere(r = ball_caster_r, $fn=50);
+    sphere(r = ball_caster_r, $fn=50);
   translate([0,0,0]) {
     for(i=[1:3])
       rotate([0,0,120*i-30])
@@ -293,6 +293,6 @@ module print_accesories() {
 }
 
 //print_accesories();
-//print_base();
-show();
+print_base();
+//show();
 
