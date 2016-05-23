@@ -46,12 +46,12 @@ motor_z = 12;
 motor_axe_disp = 5;
 motor_tab = 3;
 
-ball_caster_r = 7.5; // canica d = 15 mm
+ball_caster_r = 8; // canica d = 15 mm
 ball_caster_center = 56;
 ball_caster_support_holes = 11;
 
-distance_to_floor = 11; // measured from the top of the base (aka includes the thickness)
-ball_caster_height = distance_to_floor-dreamster_base_thickness-1.5;
+distance_to_floor = 12; // measured from the top of the base (aka includes the thickness)
+ball_caster_height = distance_to_floor-dreamster_base_thickness-3;
 
 //---------------------------------
 
@@ -117,7 +117,7 @@ module ball_caster_holder() {
 
     }
   
-    translate([0, 0, ball_caster_r+dreamster_base_thickness-distance_to_floor]){
+    translate([0, 0, ball_caster_r+dreamster_base_thickness-distance_to_floor-0.5]){
       cylinder(h=ball_caster_height, r= ball_caster_r+0.5, $fn=50);
       sphere(r = ball_caster_r+0.5, $fn=50); 
     }
@@ -235,6 +235,17 @@ module dreamster_base() {
             translate([motor_tab/2,-motor_y/2,0])
               motor_support();
       }
+      
+      // enclose for ball caster
+      *for (i=[0,1])
+      rotate([0,0,180*i])   
+      translate([0, ball_caster_center, 0])
+        intersection(){
+          translate([0, 0, ball_caster_r+dreamster_base_thickness/2-distance_to_floor])
+            sphere(r = ball_caster_r+2, $fn=50);
+          translate([0,0,(ball_caster_r+2)/2])
+            cube([2*(ball_caster_r+2)+1,2*(ball_caster_r+2)+1,(ball_caster_r+2)+1], center=true);
+        }
     }
     
     dreamster_base_holes();
@@ -269,7 +280,7 @@ module arduino_base() {
 
 
 module show() {
-  dreamster_base();
+  rotate([0,0,180]) dreamster_base();
   translate([0, ball_caster_center, -dreamster_base_thickness/2])
     ball_caster_holder_sensor();
   rotate([0,0,180]) translate([0,ball_caster_center, -dreamster_base_thickness/2]) ball_caster_holder ();
@@ -278,21 +289,24 @@ module show() {
 }
 
 module print_base() {
-  dreamster_base();
+  rotate([0,0,180]) dreamster_base();
 }
 
 module print_accesories() {
   translate([0,0,arduino_base_thickness/2])arduino_base();
-  translate([-2, -12, ball_caster_height])
+  *translate([-2, -12, ball_caster_height])
     rotate([0,0,90])
       ball_caster_holder_sensor();
-  translate([50, -10, ball_caster_height])
+  *translate([50, -10, ball_caster_height])
     rotate([0,0,90])
+      ball_caster_holder();
+  translate([2, -10, 0])
+    rotate([0,180,0])
       ball_caster_holder();
 
 }
 
 //print_accesories();
-print_base();
-//show();
+//print_base();
+show();
 
