@@ -107,25 +107,25 @@ module ball_caster_holder() {
       //difference() {
         //
         translate([0, 0, -ball_caster_height/2])
-          cylinder(h=ball_caster_height,r=ball_caster_r+1.5,$fn=50,center=true);
+          cylinder(h=ball_caster_height,r=ball_caster_r+1.5,$fn=200,center=true);
         //translate([0, 0, -ball_caster_height/2+1])
           //cube([ball_caster_r*2+1,ball_caster_r*2+1,ball_caster_height-2],center=true);
       //}
       // base disc
       translate([0, 0, -0.5])
-        cylinder(h=1,d=ball_caster_r*2+3+10,$fn=50,center=true);
+        cylinder(h=1,d=ball_caster_r*2+3+10,$fn=200,center=true);
 
     }
   
     translate([0, 0, ball_caster_r+dreamster_base_thickness-distance_to_floor-0.5]){
       cylinder(h=ball_caster_height, r= ball_caster_r+0.5, $fn=50);
-      sphere(r = ball_caster_r+0.5, $fn=50); 
+      sphere(r = ball_caster_r+0.5, $fn=200); 
     }
     translate([0,0,0]) {
       for(i=[1:3])
         rotate([0,0,120*i-30])
           translate([-ball_caster_support_holes, 0, -1-0.05])
-            cylinder(d = 2.1, h = 1.1, $fn=50); 
+            cylinder(d = 2.1, h = 1.1, $fn=200); 
     }
     
   }
@@ -143,12 +143,12 @@ module ball_caster_holder_sensor() {
 //sphere and 3 holes for support used in base
 module ball_caster() {
   translate([0, 0, ball_caster_r+dreamster_base_thickness/2-distance_to_floor])
-    sphere(r = ball_caster_r, $fn=50);
+    sphere(r = ball_caster_r, $fn=200);
   translate([0,0,0]) {
     for(i=[1:3])
       rotate([0,0,120*i-30])
         translate([-ball_caster_support_holes, 0, -dreamster_base_thickness/2-0.05])
-          cylinder(d = 2.1, h = dreamster_base_thickness*1.1, $fn=50); 
+          cylinder(d = 2.1, h = dreamster_base_thickness*1.1, $fn=200); 
   }
 }
 
